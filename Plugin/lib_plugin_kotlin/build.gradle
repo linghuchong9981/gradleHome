@@ -1,8 +1,42 @@
-apply plugin: 'java-library'
+//https://www.jianshu.com/p/648c07b5dbf2
+
+apply plugin: 'maven'
+apply plugin: 'kotlin'
+
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.71"
+    compile "com.android.tools.build:gradle:3.3.2'"
+    compile 'org.javassist:javassist:3.22.0-GA'
+    compile gradleApi()
+    testCompile 'junit:junit:4.12'
 }
 
-sourceCompatibility = "7"
-targetCompatibility = "7"
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.6"
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.6"
+    }
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+}
+
+
+group "com.linghuchong.cc.plugin.kotlin"
+version "1.0.0"
+
+uploadArchives{ //当前项目可以发布到本地文件夹中
+    repositories {
+        mavenDeployer {
+            repository(url: uri('./repo')) //定义本地maven仓库的地址
+        }
+    }
+}
